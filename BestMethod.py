@@ -123,16 +123,16 @@ def find_best_method(table_cols_name, data, datasets, datasets_names):
     best_by_kurtosis = []
 
     for col in table_cols_name:
-        # best_by_dist.append(chose_best_data(col, datasets, datasets_names))
-        # best_by_ks_test.append(ks_test(col, data, datasets, datasets_names))
-        # best_by_skewness.append(skewness(col, data, datasets, datasets_names))
+        best_by_dist.append(chose_best_data(col, datasets, datasets_names))
+        best_by_ks_test.append(ks_test(col, data, datasets, datasets_names))
+        best_by_skewness.append(skewness(col, data, datasets, datasets_names))
         best_by_kurtosis.append(kurtosis(col, data, datasets, datasets_names))
 
     best = []
-    # best.append(max(set(best_by_skewness), key=best_by_skewness.count))
+    best.append(max(set(best_by_skewness), key=best_by_skewness.count))
     best.append(max(set(best_by_kurtosis), key=best_by_kurtosis.count))
-    # best.append(max(set(best_by_dist), key=best_by_dist.count))
-    # best.append(max(set(best_by_ks_test), key=best_by_ks_test.count))
+    best.append(max(set(best_by_dist), key=best_by_dist.count))
+    best.append(max(set(best_by_ks_test), key=best_by_ks_test.count))
 
     print(max(set(best), key=best.count))
     return max(set(best), key=best.count)
