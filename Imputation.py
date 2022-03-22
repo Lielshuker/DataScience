@@ -3,10 +3,10 @@ from sklearn.impute import KNNImputer, SimpleImputer
 from sklearn import preprocessing
 from sklearn.experimental import enable_iterative_imputer
 from sklearn.impute import IterativeImputer
-
 import pandas as pd
 
 
+# instead of Nan value putting mean
 def imputing_with_mean(data_csv, table_cols_name):
     data_with_mean_values = data_csv.copy()
     imputer = SimpleImputer(missing_values=np.nan, strategy='mean')
@@ -18,6 +18,7 @@ def imputing_with_mean(data_csv, table_cols_name):
     return data_with_mean_values
 
 
+# instead of Nan value putting median
 def imputing_with_median(data_csv, table_cols_name):
     data_with_median_values = data_csv.copy()
     imputer = SimpleImputer(missing_values=np.nan, strategy='median')
@@ -29,6 +30,7 @@ def imputing_with_median(data_csv, table_cols_name):
     return data_with_median_values
 
 
+# instead of Nan value putting most frequent value
 def imputing_with_most_frequent(data_csv, table_cols_name):
     data_with_most_frequent_value = data_csv.copy()
     imputer = SimpleImputer(missing_values=np.nan, strategy='most_frequent')
@@ -39,7 +41,7 @@ def imputing_with_most_frequent(data_csv, table_cols_name):
     data_with_most_frequent_value.head()
     return data_with_most_frequent_value
 
-
+# instead of Nan value putting zero values
 def imputing_with_zero(data_csv, table_cols_name):
     data_with_zero_value = data_csv.copy()
     imputer = SimpleImputer(missing_values=np.nan, fill_value=0, strategy='constant')
@@ -51,6 +53,7 @@ def imputing_with_zero(data_csv, table_cols_name):
     return data_with_zero_value
 
 
+# using knn algorithm to imputation
 def imputing_with_knn(data_csv, table_cols_name):
     data_with_numric_column = data_csv.copy()
     le = preprocessing.LabelEncoder()
@@ -65,6 +68,7 @@ def imputing_with_knn(data_csv, table_cols_name):
     return data_with_knn_value, data_with_numric_column
 
 
+# # instead of Nan value putting covariance
 def imputing_with_covariance(data_with_numric_column):
     data_with_corr_value = data_with_numric_column
     impute_it = IterativeImputer()

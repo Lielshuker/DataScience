@@ -3,6 +3,7 @@ import random
 import numpy as np
 
 
+# loading the csv dataset and creating a list of columns names
 def loadData(path):
     data_csv = pd.read_csv(path)
     data = data_csv.copy()
@@ -12,6 +13,7 @@ def loadData(path):
     return data_csv, data, row_count, column_count, table_cols_name
 
 
+# removing 5% of each col at the dataset and replacing it with Nan
 def remove_values_from_dataset(data_csv, row_count, table_cols_name):
     dataset_len = len(data_csv)
     five_percent = int((dataset_len * 5) / 100)

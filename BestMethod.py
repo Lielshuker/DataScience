@@ -2,6 +2,7 @@ from fitter import Fitter, get_common_distributions, get_distributions
 from scipy.stats import ks_2samp
 
 
+# using fitter library to find the datasets distribution, using sum square error to the calculating
 def best_fit_dest(column_name, datasets, datasets_names):
     data_best_dest = ''
     same_dist_summary = []
@@ -12,7 +13,6 @@ def best_fit_dest(column_name, datasets, datasets_names):
             f = Fitter(dataset[column_name].values, distributions=get_common_distributions())
             f.fit()
             d = f.summary()
-
             best_dist = f.get_best(method='sumsquare_error')
             if datasets_names[i] == 'data':
                 data_best_dest = {'best': best_dist, 'd': d}
@@ -25,6 +25,7 @@ def best_fit_dest(column_name, datasets, datasets_names):
     return same_dist_summary, data_best_dest
 
 
+# calculate which distribution is the most similar to the original
 def mme(same_dist_summary, data_best_dest):
     col = next(iter(data_best_dest['best']))
     best_mme = data_best_dest['d'].loc[col, 'sumsquare_error']
@@ -44,6 +45,7 @@ def mme(same_dist_summary, data_best_dest):
     return best
 
 
+# if the fitter return few distribution we calculate the similar distribution
 def chose_best_data(col, datasets, datasets_names):
     same_dist_summary, data_best_dest = best_fit_dest(col, datasets, datasets_names)
     if len(same_dist_summary) == 0:
@@ -54,6 +56,7 @@ def chose_best_data(col, datasets, datasets_names):
         return mme(same_dist_summary, data_best_dest)[0]
 
 
+# using ks test to check the new data that its distribution is the most close to the original distribution
 def ks_test(col, data, datasets, datasets_names):
     max_pvalue = 0
     best_dataset = ''
@@ -70,6 +73,7 @@ def ks_test(col, data, datasets, datasets_names):
     return best_dataset
 
 
+# calculating the skewness of the new data and compering to the original to find the best method
 def skewness(col, data, datasets, datasets_names):
     first = 0
     best_data = ''
@@ -84,16 +88,15 @@ def skewness(col, data, datasets, datasets_names):
         if i == 2:
             first = abs(x - data_skewness)
             best_data = datasets_names[i]
-            # best_skew = x
         closet = abs(x - data_skewness)
         if closet < first:
             first = closet
             best_data = datasets_names[i]
-        # best_skew = x
 
     return best_data
 
 
+# calculating the kurtosis of the new data and compering to the original to find the best method
 def kurtosis(col, data, datasets, datasets_names):
     first = 0
     best_data = ''
@@ -116,6 +119,7 @@ def kurtosis(col, data, datasets, datasets_names):
     return best_data
 
 
+# running all those methods, inserting to list and find the most frequent one.
 def find_best_method(table_cols_name, data, datasets, datasets_names):
     best_by_ks_test = []
     best_by_dist = []
