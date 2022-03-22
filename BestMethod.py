@@ -134,7 +134,6 @@ def find_best_method(table_cols_name, data, datasets, datasets_names):
     best.append(max(set(best_by_dist), key=best_by_dist.count))
     best.append(max(set(best_by_ks_test), key=best_by_ks_test.count))
 
-    print(max(set(best), key=best.count))
     return max(set(best), key=best.count)
 
 
